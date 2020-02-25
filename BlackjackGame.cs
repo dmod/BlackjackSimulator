@@ -7,22 +7,16 @@ namespace bjdev
 
     public enum BlackjackResult { PlayerWins, DealerWins }
 
+
+
     public class BlackjackGame
     {
-        public FrenchDeck deck;
 
-        public BlackjackGame()
+        public static Random rand = new Random();
+
+
+        public BlackjackResult PlayGame(Queue<Card> shoe)
         {
-            deck = new FrenchDeck();
-        }
-
-        public BlackjackResult PlayGame()
-        {
-            Random rand = new Random();
-            List<Card> shuffledcards = deck.cards.OrderBy(a => rand.Next()).ToList();
-
-            Queue<Card> shoe = new Queue<Card>(shuffledcards);
-
             Card firstPlayerCard = shoe.Dequeue();
             Card dealerUpCard = shoe.Dequeue();
             Card secondPlayerCard = shoe.Dequeue();
@@ -54,7 +48,7 @@ namespace bjdev
         {
             Tuple<int, bool> thing = CalculateHandValue(hand);
 
-            if(thing.Item2 == true)
+            if (thing.Item2 == true)
             {
                 // Soft
                 if (thing.Item1 > 18)
@@ -69,7 +63,7 @@ namespace bjdev
             else
             {
                 // Hard
-                if(thing.Item1 >= 17)
+                if (thing.Item1 >= 17)
                 {
                     return true;
                 }
@@ -123,6 +117,13 @@ namespace bjdev
             }
 
             return new Tuple<int, bool>(value, isSoft);
+        }
+
+        public static Queue<Card> ShuffleShoe(List<Card> cards)
+        {
+            IOrderedEnumerable<Card> shuffledcards = cards.OrderBy(x => rand.Next());
+            Queue<Card> shoe = new Queue<Card>(shuffledcards);
+            return shoe;
         }
     }
 }

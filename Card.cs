@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace bjdev
+﻿namespace bjdev
 {
     public enum Suit { Heart, Spade, Diamond, Club }
 

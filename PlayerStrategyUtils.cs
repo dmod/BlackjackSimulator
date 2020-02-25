@@ -25,7 +25,7 @@ namespace bjdev
         {
             int playerSum = firstPlayerCard.Value + secondPlayerCard.Value;
 
-            if(playerSum <= 8)
+            if (playerSum <= 8)
             {
                 return true;
             }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bjdev
+﻿namespace bjdev
 {
     public class DealerStrategyUtils
     {
