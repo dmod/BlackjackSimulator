@@ -23,28 +23,32 @@ namespace bjdev
             var playerWins = 0;
             var dealerWins = 0;
             var numMatches = 0;
+            var balance = 1000000;
 
             while (true)
             {
                 BlackjackGame bjgame = new BlackjackGame();
-                BlackjackResult result = bjgame.PlayGame(shoe);
+                int bet = 1;
+                BlackjackGameResult result = bjgame.PlayGame(shoe, bet);
 
                 numMatches++;
 
-                if (result == BlackjackResult.DealerWins)
+                if (result.Winner == BlackjackResultWinner.DealerWins)
                 {
                     dealerWins++;
                 }
-                else if (result == BlackjackResult.PlayerWins)
+                else if (result.Winner == BlackjackResultWinner.PlayerWins)
                 {
                     playerWins++;
                 }
+
+                balance += result.Winnings;
 
                 double percentWin = (double)playerWins / (double)numMatches;
 
                 double currentShoePenetration = 1 - ((double)shoe.Count / (double)orderedCards.Count);
 
-                Console.WriteLine($"The player has won {playerWins} / {numMatches}. ({percentWin:P5}) Shoe Penetration: {currentShoePenetration:P5}");
+                Console.WriteLine($"The player has won {playerWins} / {numMatches}. ({percentWin:P5}) Balance: {balance} Shoe Penetration: {currentShoePenetration:P5}");
 
                 if (currentShoePenetration >= RESHUFFLE_PENETRATION_PERCENT)
                 {

@@ -4,18 +4,20 @@ using System.Linq;
 
 namespace bjdev
 {
+    public enum BlackjackResultWinner { PlayerWins, DealerWins }
 
-    public enum BlackjackResult { PlayerWins, DealerWins }
-
-
+    public class BlackjackGameResult
+    {
+        public BlackjackResultWinner Winner { get; set; }
+        public int Winnings { get; set; }
+    }
 
     public class BlackjackGame
     {
 
         public static Random rand = new Random();
 
-
-        public BlackjackResult PlayGame(Queue<Card> shoe)
+        public BlackjackGameResult PlayGame(Queue<Card> shoe, int bet)
         {
             Card firstPlayerCard = shoe.Dequeue();
             Card dealerUpCard = shoe.Dequeue();
@@ -41,7 +43,18 @@ namespace bjdev
                 dealerShouldStopHitting = HandHigherThanSoft17(dealerHand);
             }
 
-            return CalculateResult(userHand, dealerHand);
+            var whoWon = CalculateResult(userHand, dealerHand);
+            int winnings = 0;
+            if (whoWon == BlackjackResultWinner.PlayerWins)
+            {
+                winnings = bet;
+            }
+            else if (whoWon == BlackjackResultWinner.DealerWins)
+            {
+                winnings = -bet;
+            }
+
+            return new BlackjackGameResult { Winner = whoWon, Winnings = winnings };
         }
 
         public bool HandHigherThanSoft17(List<Card> hand)
@@ -76,22 +89,22 @@ namespace bjdev
         }
 
 
-        public static BlackjackResult CalculateResult(List<Card> userHand, List<Card> dealerHand)
+        public static BlackjackResultWinner CalculateResult(List<Card> userHand, List<Card> dealerHand)
         {
             int playerValue = CalculateHandValue(userHand).Item1;
             int dealerValue = CalculateHandValue(dealerHand).Item1;
 
             if (playerValue > 21)
             {
-                return BlackjackResult.DealerWins;
+                return BlackjackResultWinner.DealerWins;
             }
 
             if (dealerValue > 21)
             {
-                return BlackjackResult.PlayerWins;
+                return BlackjackResultWinner.PlayerWins;
             }
 
-            return playerValue > dealerValue ? BlackjackResult.PlayerWins : BlackjackResult.DealerWins;
+            return playerValue > dealerValue ? BlackjackResultWinner.PlayerWins : BlackjackResultWinner.DealerWins;
         }
 
         public static Tuple<int, bool> CalculateHandValue(List<Card> hand)
