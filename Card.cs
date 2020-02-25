@@ -1,26 +1,29 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace bjdev
 {
     public enum Suit { Heart, Spade, Diamond, Club }
+
     public class Card
     {
+
         public Suit Suit;
 
-        public Number Number;
+        public string NumberKey;
 
-        public static Tuple<string, int>[] ber = { new Tuple<string, int>("Jack", 78) };
+        public int Value;
 
 
-        public Card(Suit suit, Number number)
+        public Card(Suit suit, string numberKey, int value)
         {
             this.Suit = suit;
-            this.Number = number;
+            this.NumberKey = numberKey;
+            this.Value = value;
         }
 
         public override string ToString()
         {
-            return $"{Suit}{Number}";
+            return $"{Suit}{NumberKey}";
         }
 
     }
