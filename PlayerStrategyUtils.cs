@@ -4,20 +4,50 @@ namespace bjdev
 {
   public class PlayerStrategyUtils
   {
+
+    public static Dictionary<int, Dictionary<int, CellStrategyAndResult>> softHandStrategies = new Dictionary<int, Dictionary<int, CellStrategyAndResult>>();
+    public static Dictionary<int, Dictionary<int, CellStrategyAndResult>> hardHandStrategies = new Dictionary<int, Dictionary<int, CellStrategyAndResult>>();
+
     public static bool ShouldPlayerHit(List<Card> playerHand, Card dealerUpCard)
     {
       (int value, bool isSoft) = HandUtils.CalculateHandValue(playerHand);
 
-      if (value < 22)
+      PlayerAction thingToDo;
+
+      if (isSoft)
       {
-        return true;
+        if (!softHandStrategies.ContainsKey(dealerUpCard.Value))
+        {
+          softHandStrategies[dealerUpCard.Value] = new Dictionary<int, CellStrategyAndResult>();
+        }
+
+        Dictionary<int, CellStrategyAndResult> playerTotalValueToStrategy = softHandStrategies[dealerUpCard.Value];
+
+        if (!playerTotalValueToStrategy.ContainsKey(value))
+        {
+          playerTotalValueToStrategy[value] = new CellStrategyAndResult();
+        }
+
+        thingToDo = playerTotalValueToStrategy[value].WhatDo();
       }
       else
       {
-        return false;
+        if (!hardHandStrategies.ContainsKey(dealerUpCard.Value))
+        {
+          hardHandStrategies[dealerUpCard.Value] = new Dictionary<int, CellStrategyAndResult>();
+        }
+
+        Dictionary<int, CellStrategyAndResult> playerTotalValueToStrategy = hardHandStrategies[dealerUpCard.Value];
+
+        if (!playerTotalValueToStrategy.ContainsKey(value))
+        {
+          playerTotalValueToStrategy[value] = new CellStrategyAndResult();
+        }
+
+        thingToDo = playerTotalValueToStrategy[value].WhatDo();
       }
 
-      //return !HandUtils.HandHigherThanSoft17(playerHand);
+      return thingToDo == PlayerAction.Hit;
     }
   }
 }

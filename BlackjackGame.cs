@@ -79,12 +79,12 @@ namespace bjdev
 
     private bool HandIsBlackjack(List<Card> userHand)
     {
-      return userHand.Count == 2 && HandUtils.CalculateHandValue(userHand).Item1 == 21;
+      return userHand.Count == 2 && HandUtils.CalculateHandValue(userHand).value == 21;
     }
 
     private bool HandBusted(List<Card> userHand)
     {
-      int userHandValue = HandUtils.CalculateHandValue(userHand).Item1;
+      int userHandValue = HandUtils.CalculateHandValue(userHand).value;
 
       if (userHandValue > 21)
       {
