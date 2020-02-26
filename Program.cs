@@ -23,7 +23,7 @@ namespace bjdev
             var playerWins = 0;
             var dealerWins = 0;
             var numMatches = 0;
-            var balance = 1000000;
+            var balance = 100;
 
             while (true)
             {
@@ -42,7 +42,7 @@ namespace bjdev
                     playerWins++;
                 }
 
-                balance += result.Winnings;
+                balance += result.EarningsAfterGame;
 
                 double percentWin = (double)playerWins / (double)numMatches;
 
