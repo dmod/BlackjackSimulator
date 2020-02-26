@@ -31,9 +31,14 @@ namespace bjdev
       {
         BlackjackGame bjgame = new BlackjackGame();
         int bet = 10;
-        BlackjackGameResult result = bjgame.PlayGame(shoe, bet);
+        BlackjackGameResult result = bjgame.PlayGame(shoe, bet, out List<CellStrategyAndResult> strategies);
 
         numMatches++;
+
+        foreach(CellStrategyAndResult strategy in strategies)
+        {
+          strategy?.RecordResult(result);
+        }
 
         switch (result.Winner)
         {

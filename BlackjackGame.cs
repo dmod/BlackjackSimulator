@@ -18,8 +18,10 @@ namespace bjdev
 
     public static readonly double BLACKJACK_PAYOUT_RATIO = 1.5;
 
-    public BlackjackGameResult PlayGame(Queue<Card> shoe, int bet)
+    public BlackjackGameResult PlayGame(Queue<Card> shoe, int bet, out List<CellStrategyAndResult> playerStrategiesReferencesForThisGame)
     {
+      playerStrategiesReferencesForThisGame = new List<CellStrategyAndResult>();
+
       Card firstPlayerCard = shoe.Dequeue();
       Card dealerUpCard = shoe.Dequeue();
       Card secondPlayerCard = shoe.Dequeue();
@@ -31,12 +33,14 @@ namespace bjdev
         return new BlackjackGameResult { Winner = BlackjackResultWinner.PlayerWins, EarningsAfterGame = Convert.ToInt32(bet * BLACKJACK_PAYOUT_RATIO) };
       }
 
-      bool playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
-      while (playerShouldHit)
+      (bool shouldPlayerHit, CellStrategyAndResult referencedStrategy) playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
+      playerStrategiesReferencesForThisGame.Add(playerShouldHit.referencedStrategy);
+      while (playerShouldHit.shouldPlayerHit)
       {
         Card nextCard = shoe.Dequeue();
         playerHand.Add(nextCard);
         playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
+        playerStrategiesReferencesForThisGame.Add(playerShouldHit.referencedStrategy);
       }
 
       if (HandBusted(playerHand))

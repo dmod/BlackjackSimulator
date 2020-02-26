@@ -8,11 +8,16 @@ namespace bjdev
     public static Dictionary<int, Dictionary<int, CellStrategyAndResult>> softHandStrategies = new Dictionary<int, Dictionary<int, CellStrategyAndResult>>();
     public static Dictionary<int, Dictionary<int, CellStrategyAndResult>> hardHandStrategies = new Dictionary<int, Dictionary<int, CellStrategyAndResult>>();
 
-    public static bool ShouldPlayerHit(List<Card> playerHand, Card dealerUpCard)
+    public static (bool shouldPlayerHit, CellStrategyAndResult referencedStrategy) ShouldPlayerHit(List<Card> playerHand, Card dealerUpCard)
     {
       (int value, bool isSoft) = HandUtils.CalculateHandValue(playerHand);
 
-      PlayerAction thingToDo;
+      if(value >= 21)
+      {
+        return (false, null);
+      }
+
+      CellStrategyAndResult strategyToReference;
 
       if (isSoft)
       {
@@ -28,7 +33,7 @@ namespace bjdev
           playerTotalValueToStrategy[value] = new CellStrategyAndResult();
         }
 
-        thingToDo = playerTotalValueToStrategy[value].WhatDo();
+        strategyToReference = playerTotalValueToStrategy[value];
       }
       else
       {
@@ -44,10 +49,12 @@ namespace bjdev
           playerTotalValueToStrategy[value] = new CellStrategyAndResult();
         }
 
-        thingToDo = playerTotalValueToStrategy[value].WhatDo();
+        strategyToReference = playerTotalValueToStrategy[value];
       }
 
-      return thingToDo == PlayerAction.Hit;
+      PlayerAction thingToDo = strategyToReference.WhatDo();
+
+      return (thingToDo == PlayerAction.Hit, strategyToReference);
     }
   }
 }

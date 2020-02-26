@@ -11,9 +11,8 @@ namespace bjdev
   {
 
     public int numTimesSeen;
-    public int hitWins;
-    public int standWins;
-    public int pushes;
+    public int hitWasAGoodChoice;
+    public int standWasAGoodChoice;
     public PlayerAction currentPlayerAction;
 
     public CellStrategyAndResult()
@@ -23,15 +22,41 @@ namespace bjdev
 
     public PlayerAction WhatDo()
     {
+      numTimesSeen++;
+      return currentPlayerAction;
+    }
+
+    internal void RecordResult(BlackjackGameResult result)
+    {
+      switch (result.Winner)
+      {
+        case BlackjackResultWinner.DealerWins:
+          // No action needed
+          break;
+        case BlackjackResultWinner.PlayerWins:
+          if(currentPlayerAction == PlayerAction.Hit)
+          {
+            hitWasAGoodChoice++;
+          }
+          else
+          {
+            standWasAGoodChoice++;
+          }
+          break;
+        case BlackjackResultWinner.Push:
+          // No action needed
+          break;
+      }
+
+      // Do something else next time
       if (currentPlayerAction == PlayerAction.Hit)
       {
-        return PlayerAction.Stand;
+        currentPlayerAction = PlayerAction.Stand;
       }
       else
       {
-        return PlayerAction.Hit;
+        currentPlayerAction = PlayerAction.Hit;
       }
     }
-
   }
 }
