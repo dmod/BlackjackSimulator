@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bjdev
+﻿namespace bjdev
 {
 
   public enum PlayerAction { Hit, Stand }
@@ -34,7 +30,7 @@ namespace bjdev
           // No action needed
           break;
         case BlackjackResultWinner.PlayerWins:
-          if(currentPlayerAction == PlayerAction.Hit)
+          if (currentPlayerAction == PlayerAction.Hit)
           {
             hitWasAGoodChoice++;
           }

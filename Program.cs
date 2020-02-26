@@ -35,7 +35,7 @@ namespace bjdev
 
         numMatches++;
 
-        foreach(CellStrategyAndResult strategy in strategies)
+        foreach (CellStrategyAndResult strategy in strategies)
         {
           strategy?.RecordResult(result);
         }

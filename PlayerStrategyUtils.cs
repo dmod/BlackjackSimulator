@@ -12,7 +12,7 @@ namespace bjdev
     {
       (int value, bool isSoft) = HandUtils.CalculateHandValue(playerHand);
 
-      if(value >= 21)
+      if (value >= 21)
       {
         return (false, null);
       }
