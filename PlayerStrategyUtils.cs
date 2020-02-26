@@ -6,9 +6,9 @@ namespace bjdev
   {
     public static bool ShouldPlayerHit(List<Card> playerHand, Card dealerUpCard)
     {
-      (int value, bool isSoft) handValue = HandUtils.CalculateHandValue(playerHand);
+      (int value, bool isSoft) = HandUtils.CalculateHandValue(playerHand);
 
-      if (handValue.value < 22)
+      if (value < 22)
       {
         return true;
       }

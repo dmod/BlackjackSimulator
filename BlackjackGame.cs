@@ -23,7 +23,6 @@ namespace bjdev
       Card firstPlayerCard = shoe.Dequeue();
       Card dealerUpCard = shoe.Dequeue();
       Card secondPlayerCard = shoe.Dequeue();
-      Card dealerDownCard = shoe.Dequeue();
 
       List<Card> playerHand = new List<Card> { firstPlayerCard, secondPlayerCard };
 
@@ -45,6 +44,8 @@ namespace bjdev
         return new BlackjackGameResult { Winner = BlackjackResultWinner.DealerWins, EarningsAfterGame = -bet };
       }
 
+      Card dealerDownCard = shoe.Dequeue();
+
       List<Card> dealerHand = new List<Card> { dealerUpCard, dealerDownCard };
 
       bool dealerShouldStopHitting = HandUtils.HandHigherThanSoft17(dealerHand);
@@ -59,8 +60,8 @@ namespace bjdev
         return new BlackjackGameResult { Winner = BlackjackResultWinner.PlayerWins, EarningsAfterGame = bet };
       }
 
-      int playerValue = HandUtils.CalculateHandValue(playerHand).Item1;
-      int dealerValue = HandUtils.CalculateHandValue(dealerHand).Item1;
+      int playerValue = HandUtils.CalculateHandValue(playerHand).value;
+      int dealerValue = HandUtils.CalculateHandValue(dealerHand).value;
 
       if (playerValue == dealerValue)
       {

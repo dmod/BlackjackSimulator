@@ -46,7 +46,7 @@ namespace bjdev
       bool isSoft = false;
       foreach (Card userCard in hand)
       {
-        if (userCard.NumberKey == "A")
+        if (userCard.IsAce())
         {
           if (value + 10 < 22)
           {
