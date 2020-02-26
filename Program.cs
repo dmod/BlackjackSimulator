@@ -22,6 +22,7 @@ namespace bjdev
 
       int playerWins = 0;
       int dealerWins = 0;
+      int numPushes = 0;
       int numMatches = 0;
 
       int balance = 100;
@@ -29,18 +30,22 @@ namespace bjdev
       while (true)
       {
         BlackjackGame bjgame = new BlackjackGame();
-        int bet = 1;
+        int bet = 10;
         BlackjackGameResult result = bjgame.PlayGame(shoe, bet);
 
         numMatches++;
 
-        if (result.Winner == BlackjackResultWinner.DealerWins)
+        switch (result.Winner)
         {
-          dealerWins++;
-        }
-        else if (result.Winner == BlackjackResultWinner.PlayerWins)
-        {
-          playerWins++;
+          case BlackjackResultWinner.DealerWins:
+            dealerWins++;
+            break;
+          case BlackjackResultWinner.PlayerWins:
+            playerWins++;
+            break;
+          case BlackjackResultWinner.Push:
+            numPushes++;
+            break;
         }
 
         balance += result.EarningsAfterGame;
@@ -49,7 +54,7 @@ namespace bjdev
 
         double currentShoePenetration = 1 - (shoe.Count / (double)orderedCards.Count);
 
-        Console.WriteLine($"The player has won {playerWins} / {numMatches}. ({percentWin:P5}) Balance: {balance} Shoe Penetration: {currentShoePenetration:P5}");
+        Console.WriteLine($"The player has won {playerWins} / {numMatches}. ({percentWin:P5}) ({numPushes} pushes) Balance: {balance} Shoe Penetration: {currentShoePenetration:P5}");
 
         if (currentShoePenetration >= RESHUFFLE_PENETRATION_PERCENT)
         {

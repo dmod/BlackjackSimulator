@@ -32,12 +32,12 @@ namespace bjdev
         return new BlackjackGameResult { Winner = BlackjackResultWinner.PlayerWins, EarningsAfterGame = Convert.ToInt32(bet * BLACKJACK_PAYOUT_RATIO) };
       }
 
-      bool playerShouldHit = !HandUtils.HandHigherThanSoft17(playerHand);
+      bool playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
       while (playerShouldHit)
       {
         Card nextCard = shoe.Dequeue();
         playerHand.Add(nextCard);
-        playerShouldHit = !HandUtils.HandHigherThanSoft17(playerHand);
+        playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
       }
 
       if (HandBusted(playerHand))

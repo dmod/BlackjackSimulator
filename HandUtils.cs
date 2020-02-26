@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace bjdev
 {
@@ -7,12 +6,12 @@ namespace bjdev
   {
     public static bool HandHigherThanSoft17(List<Card> hand)
     {
-      Tuple<int, bool> thing = CalculateHandValue(hand);
+      (int value, bool isSoft) handValue = CalculateHandValue(hand);
 
-      if (thing.Item2 == true)
+      if (handValue.isSoft == true)
       {
         // Soft
-        if (thing.Item1 > 18)
+        if (handValue.value > 18)
         {
           return true;
         }
@@ -24,7 +23,7 @@ namespace bjdev
       else
       {
         // Hard
-        if (thing.Item1 >= 17)
+        if (handValue.value >= 17)
         {
           return true;
         }
@@ -35,7 +34,7 @@ namespace bjdev
       }
     }
 
-    public static Tuple<int, bool> CalculateHandValue(List<Card> hand)
+    public static (int value, bool isSoft) CalculateHandValue(List<Card> hand)
     {
       int value = 0;
       foreach (Card userCard in hand)
@@ -57,7 +56,7 @@ namespace bjdev
         }
       }
 
-      return new Tuple<int, bool>(value, isSoft);
+      return (value, isSoft);
     }
 
   }
