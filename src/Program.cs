@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bjdev.src;
+using System;
 using System.Collections.Generic;
 
 namespace bjdev
@@ -18,7 +19,7 @@ namespace bjdev
         orderedCards.AddRange(new FrenchDeck().cards);
       }
 
-      Queue<Card> shoe = BlackjackGame.ShuffleShoe(orderedCards);
+      Queue<Card> shoe = Utilities.ShuffleShoe(orderedCards);
 
       int playerWins = 0;
       int dealerWins = 0;
@@ -27,7 +28,7 @@ namespace bjdev
 
       int balance = 100;
 
-      while (true)
+      for (int gameIndex = 0; gameIndex < 1000000; gameIndex++)
       {
         BlackjackGame bjgame = new BlackjackGame();
         int bet = 10;
@@ -63,7 +64,7 @@ namespace bjdev
 
         if (currentShoePenetration >= RESHUFFLE_PENETRATION_PERCENT)
         {
-          shoe = BlackjackGame.ShuffleShoe(orderedCards);
+          shoe = Utilities.ShuffleShoe(orderedCards);
         }
       }
     }

@@ -14,8 +14,6 @@ namespace bjdev
 
   public class BlackjackGame
   {
-    public static Random rand = new Random();
-
     public static readonly double BLACKJACK_PAYOUT_RATIO = 1.5;
 
     public BlackjackGameResult PlayGame(Queue<Card> shoe, int bet, out List<CellStrategyAndResult> playerStrategiesReferencesForThisGame)
@@ -34,6 +32,7 @@ namespace bjdev
       }
 
       (bool shouldPlayerHit, CellStrategyAndResult referencedStrategy) playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
+
       playerStrategiesReferencesForThisGame.Add(playerShouldHit.referencedStrategy);
       while (playerShouldHit.shouldPlayerHit)
       {
@@ -95,13 +94,6 @@ namespace bjdev
         return true;
       }
       return false;
-    }
-
-    public static Queue<Card> ShuffleShoe(List<Card> cards)
-    {
-      IOrderedEnumerable<Card> shuffledcards = cards.OrderBy(x => rand.Next());
-      Queue<Card> shoe = new Queue<Card>(shuffledcards);
-      return shoe;
     }
   }
 }

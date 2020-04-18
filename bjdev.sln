@@ -1,14 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bjdev", "bjdev.csproj", "{E9B6A65B-9AC6-4A88-A305-20C3C8FDC2A2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C9377FC-1EFF-42B7-93EB-5782377CB509}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bjdev", "bjdev.csproj", "{931EE5A8-0067-4BDB-B8FF-A72A8E380611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E9B6A65B-9AC6-4A88-A305-20C3C8FDC2A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9B6A65B-9AC6-4A88-A305-20C3C8FDC2A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9B6A65B-9AC6-4A88-A305-20C3C8FDC2A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9B6A65B-9AC6-4A88-A305-20C3C8FDC2A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{931EE5A8-0067-4BDB-B8FF-A72A8E380611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{931EE5A8-0067-4BDB-B8FF-A72A8E380611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{931EE5A8-0067-4BDB-B8FF-A72A8E380611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{931EE5A8-0067-4BDB-B8FF-A72A8E380611}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2A8A74B0-AD50-4FA2-9040-68BE1A5784D9}
+		SolutionGuid = {4A2EB468-2B15-4CA9-8FEC-6090B2D20454}
 	EndGlobalSection
 EndGlobal
