@@ -13,5 +13,21 @@ namespace bjdev.src
       Queue<Card> shoe = new Queue<Card>(shuffledcards);
       return shoe;
     }
+
+    public static bool HandIsBlackjack(List<Card> userHand)
+    {
+      return userHand.Count == 2 && HandUtils.CalculateHandValue(userHand).value == 21;
+    }
+
+    public static bool HandBusted(List<Card> userHand)
+    {
+      int userHandValue = HandUtils.CalculateHandValue(userHand).value;
+
+      if (userHandValue > 21)
+      {
+        return true;
+      }
+      return false;
+    }
   }
 }

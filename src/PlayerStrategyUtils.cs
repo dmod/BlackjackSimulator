@@ -5,8 +5,17 @@ namespace bjdev
   public class PlayerStrategyUtils
   {
 
+    public enum RecommendedPlayerAction { Stand, Hit, Double };
+
     public static Dictionary<int, Dictionary<int, CellStrategyAndResult>> softHandStrategies = new Dictionary<int, Dictionary<int, CellStrategyAndResult>>();
     public static Dictionary<int, Dictionary<int, CellStrategyAndResult>> hardHandStrategies = new Dictionary<int, Dictionary<int, CellStrategyAndResult>>();
+
+    private readonly Dictionary<int, RecommendedPlayerAction> two = new Dictionary<int, RecommendedPlayerAction>()
+    {
+      { 001, RecommendedPlayerAction.Stand },
+      { 111, RecommendedPlayerAction.Stand },
+      { 111, RecommendedPlayerAction.Stand },
+    };
 
     public static (bool shouldPlayerHit, CellStrategyAndResult referencedStrategy) ShouldPlayerHit(List<Card> playerHand, Card dealerUpCard)
     {

@@ -24,7 +24,7 @@
 
     public override string ToString()
     {
-      return $"{Suit}{NumberKey}";
+      return $"{NumberKey}{Suit}";
     }
 
   }

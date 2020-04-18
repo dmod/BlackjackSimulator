@@ -1,6 +1,6 @@
-﻿using System;
+﻿using bjdev.src;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace bjdev
 {
@@ -14,35 +14,45 @@ namespace bjdev
 
   public class BlackjackGame
   {
-    public static readonly double BLACKJACK_PAYOUT_RATIO = 1.5;
 
-    public BlackjackGameResult PlayGame(Queue<Card> shoe, int bet, out List<CellStrategyAndResult> playerStrategiesReferencesForThisGame)
+    public BlackjackGameResult PlayGame(Queue<Card> shoe, int bet, IPlayerStrategy playerStrategy)
     {
-      playerStrategiesReferencesForThisGame = new List<CellStrategyAndResult>();
-
       Card firstPlayerCard = shoe.Dequeue();
       Card dealerUpCard = shoe.Dequeue();
       Card secondPlayerCard = shoe.Dequeue();
 
+      Console.WriteLine($"Dealer up card: {dealerUpCard}");
+      Console.WriteLine($"Player has: {firstPlayerCard} {secondPlayerCard}");
+
       List<Card> playerHand = new List<Card> { firstPlayerCard, secondPlayerCard };
 
-      if (HandIsBlackjack(playerHand))
+      if (Utilities.HandIsBlackjack(playerHand))
       {
-        return new BlackjackGameResult { Winner = BlackjackResultWinner.PlayerWins, EarningsAfterGame = Convert.ToInt32(bet * BLACKJACK_PAYOUT_RATIO) };
+        int winnings = Convert.ToInt32(bet * Configuration.BLACKJACK_PAYOUT_RATIO);
+        Console.WriteLine($"Blackjack! Player wins: {winnings}");
+        return new BlackjackGameResult { Winner = BlackjackResultWinner.PlayerWins, EarningsAfterGame = winnings };
       }
 
-      (bool shouldPlayerHit, CellStrategyAndResult referencedStrategy) playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
+      PlayerStrategyUtils.RecommendedPlayerAction thingToDo = playerStrategy.WhatDo(playerHand, dealerUpCard);
 
-      playerStrategiesReferencesForThisGame.Add(playerShouldHit.referencedStrategy);
-      while (playerShouldHit.shouldPlayerHit)
+      if (thingToDo == PlayerStrategyUtils.RecommendedPlayerAction.Double)
       {
+        bet *= 2;
         Card nextCard = shoe.Dequeue();
         playerHand.Add(nextCard);
-        playerShouldHit = PlayerStrategyUtils.ShouldPlayerHit(playerHand, dealerUpCard);
-        playerStrategiesReferencesForThisGame.Add(playerShouldHit.referencedStrategy);
+        // That's it
+      }
+      else
+      {
+        while (thingToDo == PlayerStrategyUtils.RecommendedPlayerAction.Hit)
+        {
+          Card nextCard = shoe.Dequeue();
+          playerHand.Add(nextCard);
+          thingToDo = playerStrategy.WhatDo(playerHand, dealerUpCard);
+        }
       }
 
-      if (HandBusted(playerHand))
+      if (Utilities.HandBusted(playerHand))
       {
         return new BlackjackGameResult { Winner = BlackjackResultWinner.DealerWins, EarningsAfterGame = -bet };
       }
@@ -58,7 +68,7 @@ namespace bjdev
         dealerShouldStopHitting = HandUtils.HandHigherThanSoft17(dealerHand);
       }
 
-      if (HandBusted(dealerHand))
+      if (Utilities.HandBusted(dealerHand))
       {
         return new BlackjackGameResult { Winner = BlackjackResultWinner.PlayerWins, EarningsAfterGame = bet };
       }
@@ -80,20 +90,6 @@ namespace bjdev
       }
     }
 
-    private bool HandIsBlackjack(List<Card> userHand)
-    {
-      return userHand.Count == 2 && HandUtils.CalculateHandValue(userHand).value == 21;
-    }
 
-    private bool HandBusted(List<Card> userHand)
-    {
-      int userHandValue = HandUtils.CalculateHandValue(userHand).value;
-
-      if (userHandValue > 21)
-      {
-        return true;
-      }
-      return false;
-    }
   }
 }
